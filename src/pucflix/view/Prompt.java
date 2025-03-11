@@ -38,6 +38,7 @@ public class Prompt
         while(isRunning)
         {
             show();
+            eval();
         }
     }   
     
@@ -48,7 +49,7 @@ public class Prompt
         System.out.print("> Início");
 
         if(currentBranch >= 0)
-            System.out.print("> " + branches[currentBranch]);
+            System.out.print(" > " + branches[currentBranch].getName());
 
         System.out.println("\n");
 
@@ -73,7 +74,7 @@ public class Prompt
         while(opt < 0 || (currentBranch >= 0 && opt > 4) || opt > 3)
         {
             System.out.println("Opção inválida");
-            show();
+            opt = scanner.nextInt();
         }
 
         if(currentBranch < 0)
