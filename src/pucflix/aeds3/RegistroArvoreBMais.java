@@ -8,7 +8,7 @@ conter.
 Implementado pelo Prof. Marcos Kutova
 v1.0 - 2021
 */
-package aeds3;
+package pucflix.aeds3;
 
 import java.io.IOException;
 

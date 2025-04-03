@@ -8,7 +8,7 @@ conter.
 Implementado pelo Prof. Marcos Kutova
 v1.1 - 2021
 */
-package aeds3;
+package pucflix.aeds3;
 
 public interface RegistroHashExtensivel {
 

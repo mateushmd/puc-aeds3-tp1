@@ -1,4 +1,4 @@
-package aeds3; 
+package pucflix.aeds3; 
 
 /*
 Esta classe representa um objeto para uma entidade
@@ -18,7 +18,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ParIdId implements aeds3.RegistroArvoreBMais<ParIdId> {
+public class ParIdId implements pucflix.aeds3.RegistroArvoreBMais<ParIdId> {
 
   private int id1;
   private int id2;

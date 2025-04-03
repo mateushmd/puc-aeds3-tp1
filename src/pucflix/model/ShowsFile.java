@@ -1,5 +1,7 @@
 package pucflix.model;
 
+import pucflix.aeds3.Arquivo;
+
 public class ShowsFile extends File 
 {
     public ShowsFile()

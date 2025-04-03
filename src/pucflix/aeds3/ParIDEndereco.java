@@ -1,4 +1,4 @@
-package aeds3;
+package pucflix.aeds3;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
