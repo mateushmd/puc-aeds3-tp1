@@ -1,4 +1,4 @@
-package aeds3;
+package pucflix.aeds3;
 public interface EntidadeArquivo {
     public void setID(int id);
     public int getID();
