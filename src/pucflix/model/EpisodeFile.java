@@ -29,11 +29,14 @@ public class EpisodeFile extends aeds3.File<Episode>
 
     // Update Episode
     @Override
-    public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public void update(Episode newEpisode) {
+        Episode e = read(newEpisode.getId());
+        if(super.update(newEpisode)) {
+            if(newEpisode.getId().compareTo(e.getId()!=0)) {
+                indirectId.()
+            }
+        }
     }
-
     // Delete Episode
     @Override
     public void delete(int id) throws Exception{
