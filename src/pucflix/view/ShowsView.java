@@ -1,8 +1,11 @@
 package pucflix.view;
 
+import pucflix.entity.Show;
 
 public class ShowsView extends View 
 {
+    private ShowsFile file = new ShowsFile(); 
+
     public ShowsView(Prompt prompt)
     {
         super(prompt);
@@ -29,7 +32,12 @@ public class ShowsView extends View
     {
         switch(input)
         {
-            case 1: return "Inserting";
+            case 1: 
+                String name = prompt.askForInput("Nome: ");
+                int releaseYear = Integer.parseInt(prompt.askForInput("Ano de lançamento: "));
+                String sinopsys = prompt.askForInput("Sinopse: ");
+                String streaming = prompt.askForInput("Serviço de streaming: ");
+                Show show = new Show(name, releaseYear, sinopsys, streaming); 
             case 2: return "Searching";
             case 3: return "Updating";
             case 4: return "Deleting";
