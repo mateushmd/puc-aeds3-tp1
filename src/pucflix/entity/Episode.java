@@ -71,7 +71,7 @@ public class Episode {
     public String toString() {
         return "\nID...................: " + this.id +
                "\nNome.................: " + this.name +
-               "\nTemorada.............: " + this.season +
+               "\nTemporada.............: " + this.season +
                "\nData de lançamento...: " + this.releaseDate +
                "\nDuração..............: " + this.durationTime;
     }
