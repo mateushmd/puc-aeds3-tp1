@@ -4,7 +4,7 @@ import pucflix.entity.Episode;
 
 public class EpisodeView extends View 
 {
-    private EpisodeFile file = new ShowsFile(); 
+    private EpisodeFile file = new EpisodeFile(); 
 
     public EpisodeView(Prompt prompt)
     {
