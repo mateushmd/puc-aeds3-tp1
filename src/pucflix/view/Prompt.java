@@ -13,17 +13,16 @@ public class Prompt
 
     private boolean isRunning;
 
-    private File[] branches;
+    private View[] views;
 
     private int currentBranch;
+    private int depth;
 
     public Prompt()
     {
         scanner = new Scanner(System.in);
-        branches = new File[] {
-            new ShowsFile(),
-            new EpisodesFile(),
-            new ActorsFile()
+        views = new View[] {
+            new ShowsView(this),
         };
         currentBranch = -1;
     }
@@ -44,26 +43,18 @@ public class Prompt
     
     private void show()
     {
-        System.out.println("PUCFlix 1.0");
-        System.out.println("-----------");
-        System.out.print("> Início");
-
-        if(currentBranch >= 0)
-            System.out.print(" > " + branches[currentBranch].getName());
-
-        System.out.println("\n");
+        printHeader();
 
         if(currentBranch >= 0)
         {
-            System.out.println("1) Incluir");
-            System.out.println("2) Buscar");
-            System.out.println("3) Alterar");
-            System.out.println("4) Excluir");
-            System.out.println("0) Retornar");
-            return;
+            System.out.println(views[currentBranch].getPrompt(0));
+        }
+        else
+        {
+            for(int i = 0; i < views.length; i++) 
+                System.out.println((i + 1) + ") " + views[i].getName());
         }
 
-        for(int i = 0; i < branches.length; i++) System.out.println((i + 1) + ") " + branches[i].getName());
         System.out.println("0) Sair");
     }
 
@@ -71,34 +62,41 @@ public class Prompt
     {
         int opt = scanner.nextInt();
 
-        while(opt < 0 || (currentBranch >= 0 && opt > 4) || opt > 3)
-        {
+        if (opt < 0 || (currentBranch < 0 && opt > views.length))
             System.out.println("Opção inválida");
-            opt = scanner.nextInt();
+
+        if(opt == 0) 
+        {
+            isRunning = false;
+            return;
         }
 
         if(currentBranch < 0)
         {
-            if(opt == 0) isRunning = false;
-
             currentBranch = opt - 1;
             return;
         }
+        
+        try { System.out.println(views[currentBranch].eval(opt, 0)); }
+        catch(Exception ex) { System.out.println("Opção inválida"); }
+    }
 
-        switch(opt)
-        {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            default:
-                currentBranch = -1;
-                break;
-        }
+    private void printHeader()
+    {
+        System.out.println("PUCFlix 1.0");
+        System.out.println("-----------");
+        System.out.print("> Início");
+        
+        if(currentBranch >= 0)
+            System.out.print(" > " + views[currentBranch].getName());
+
+        System.out.println("\n");
+    }
+
+    public String askForInput(String message)
+    {
+        System.out.print(message);
+        return scanner.nextLine();
     }
 
     public void close()
