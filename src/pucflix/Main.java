@@ -1,4 +1,4 @@
-package aeds3;
+package pucflix;
 
 import pucflix.view.*;
 
