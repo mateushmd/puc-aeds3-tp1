@@ -87,6 +87,7 @@ public class Prompt
         catch(Exception ex) 
         { 
             System.err.println("Entrada inválida");
+            ex.printStackTrace();
         }
     }
 

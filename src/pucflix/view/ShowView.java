@@ -2,6 +2,7 @@ package pucflix.view;
 
 import pucflix.entity.Show;
 import pucflix.model.ShowFile;
+import java.lang.NumberFormatException;
 
 public class ShowView extends View 
 {
@@ -46,16 +47,23 @@ public class ShowView extends View
             }
             case 2:
             {
-                String search = prompt.askForInput("Busca: ");
+                String search = prompt.askForInput("Busca (nome ou ID): ");
 
                 try
                 {
                     int id = Integer.parseInt(search);
-                    System.out.println(file.read(id).toString());
+                    Show show = file.read(id);
+                    if(show == null)
+                        return "Nenhuma série com ID " + id + " encontrada";
+                    return show.toString();
                 }
-                catch(Exception ex)
+                catch(NumberFormatException ex)
                 {
                     Show[] shows = file.read(search);
+
+                    if(shows == null || shows.length == 0)
+                        return "Nenhuma série encontrada";
+
                     if(shows.length == 1)
                     {
                         return shows[0].toString();
@@ -64,7 +72,7 @@ public class ShowView extends View
                     String result = "";
 
                     for(Show s: shows)
-                        result += s.getName() + " (" + s.getID() + ")\n";
+                        result += s.getName() + " (id: " + s.getID() + ")\n";
 
                     return result;
                 }
@@ -99,7 +107,8 @@ public class ShowView extends View
             {
                 int id = Integer.parseInt(prompt.askForInput("ID: "));
                 
-                file.delete(id);
+                if(!file.delete(id))
+                    return "Nenhuma série com ID " + id + " encontrada";
                 
                 return "Operação finalizada com sucesso";
             }
