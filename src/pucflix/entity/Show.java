@@ -48,7 +48,7 @@ public class Show implements EntidadeArquivo
     public void setSynopsis(String synopsis) { this.synopsis = synopsis; }
 
     public String getStreamingService() { return streamingService; }
-    public void setStreamingService() { this.streamingService = streamingService; }
+    public void setStreamingService(String streamingSercice) { this.streamingService = streamingService; }
 
     public byte[] toByteArray() throws Exception
     {
@@ -71,5 +71,15 @@ public class Show implements EntidadeArquivo
         releaseYear = dis.readInt();
         synopsis = dis.readUTF();
         streamingService = dis.readUTF();
+    }
+
+    public String toString()
+    {
+        return
+            name + 
+            "\tid: " + id +
+            "\tano de lançamento: " + releaseYear +
+            "\tsinopse: " + synopsis +
+            "\tserviço de streaming: " + streamingService;
     }
 }
