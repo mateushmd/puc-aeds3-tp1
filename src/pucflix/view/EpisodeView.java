@@ -1,12 +1,12 @@
 package pucflix.view;
 
-import pucflix.entity.Show;
+import pucflix.entity.Episode;
 
-public class ShowsView extends View 
+public class EpisodeView extends View 
 {
-    private ShowsFile file = new ShowsFile(); 
+    private EpisodeFile file = new EpisodeFile(); 
 
-    public ShowsView(Prompt prompt)
+    public EpisodeView(Prompt prompt)
     {
         super(prompt);
     }
@@ -14,7 +14,7 @@ public class ShowsView extends View
     @Override
     public String getName()
     {
-        return "Séries";
+        return "Episódios";
     }
 
     @Override
@@ -34,10 +34,10 @@ public class ShowsView extends View
         {
             case 1: 
                 String name = prompt.askForInput("Nome: ");
-                int releaseYear = Integer.parseInt(prompt.askForInput("Ano de lançamento: "));
-                String sinopsys = prompt.askForInput("Sinopse: ");
-                String streaming = prompt.askForInput("Serviço de streaming: ");
-                Show show = new Show(name, releaseYear, sinopsys, streaming); 
+                int season = prompt.askForInput("Temporada: ");
+                int releaseDate = Integer.parseInt(prompt.askForInput("Data de lançamento: "));
+                float durationTime = prompt.askForInput("Tempo de duração: ");
+                Episode episode = new Episode(name, season, releaseDate, durationTime); 
             case 2: return "Searching";
             case 3: return "Updating";
             case 4: return "Deleting";

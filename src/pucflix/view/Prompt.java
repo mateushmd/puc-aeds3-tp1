@@ -93,6 +93,12 @@ public class Prompt
         System.out.println("\n");
     }
 
+    public String askForInput(String message)
+    {
+        System.out.print(message);
+        return scanner.nextLine();
+    }
+
     public void close()
     {
         scanner.close();
