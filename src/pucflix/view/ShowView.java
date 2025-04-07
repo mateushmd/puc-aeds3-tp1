@@ -40,6 +40,8 @@ public class ShowView extends View
                 String sinopsys = prompt.askForInput("Sinopse: ");
                 String streaming = prompt.askForInput("Serviço de streaming: ");
                 Show show = new Show(name, releaseYear, sinopsys, streaming); 
+                file.create(show);
+                System.out.println("Operação finalizada com sucesso!");   
             case 2: return "Searching";
             case 3: return "Updating";
             case 4: return "Deleting";

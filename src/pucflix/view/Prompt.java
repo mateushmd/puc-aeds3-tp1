@@ -48,37 +48,46 @@ public class Prompt
         if(currentBranch >= 0)
         {
             System.out.println(views[currentBranch].getPrompt(0));
+            System.out.println("0) Voltar");
         }
         else
         {
             for(int i = 0; i < views.length; i++) 
                 System.out.println((i + 1) + ") " + views[i].getName());
-        }
 
-        System.out.println("0) Sair");
+            System.out.println("0) Sair");
+        }
     }
 
     private void eval()
     {
-        int opt = scanner.nextInt();
+        try 
+        { 
+            int opt = Integer.parseInt(scanner.nextLine()); 
+            if (opt < 0 || (currentBranch < 0 && opt > views.length))
+                throw new Exception("Opção inválida");
 
-        if (opt < 0 || (currentBranch < 0 && opt > views.length))
-            System.out.println("Opção inválida");
+            if(opt == 0) 
+            {
+                if(currentBranch < 0)
+                    isRunning = false;
+                else
+                    currentBranch = -1;
+                return;
+            }
 
-        if(opt == 0) 
-        {
-            isRunning = false;
-            return;
-        }
-
-        if(currentBranch < 0)
-        {
-            currentBranch = opt - 1;
-            return;
-        }
+            if(currentBranch < 0) 
+            {
+                currentBranch = opt - 1;
+                return;
+            }
         
-        try { System.out.println(views[currentBranch].eval(opt, 0)); }
-        catch(Exception ex) { System.out.println("Opção inválida"); }
+            System.out.println(views[currentBranch].eval(opt, 0));
+        }
+        catch(Exception ex) 
+        { 
+            System.err.println("Entrada inválida");
+        }
     }
 
     private void printHeader()

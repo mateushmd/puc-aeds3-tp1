@@ -9,6 +9,6 @@ public class Main {
             Prompt prompt = new Prompt();
             prompt.start();
             prompt.close();
-        } catch(Exception ex) { ex.printStackTrace(); }
+        } catch(Exception ex) { System.err.println(ex.getMessage()); }
     }
 }
