@@ -4,13 +4,14 @@ import pucflix.aeds3.RegistroArvoreBMais;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-import java.io.DataOuputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
-public class ShowNameIdPair implements RegistroArvoreBMais<ShowNameIdPair> {
+public class ShowNameIdPair implements RegistroArvoreBMais<ShowNameIdPair>
+{
     private String name;
     private int id;
     private short SIZE = 104;
@@ -31,9 +32,9 @@ public class ShowNameIdPair implements RegistroArvoreBMais<ShowNameIdPair> {
         this.name = "";
         this.id = id;
 
-        if(t.isEmpty()) return;
+        if(name.isEmpty()) return;
 
-        byte[] buff = name.getBytes(StandardCharsets.UTF-8);
+        byte[] buff = name.getBytes(StandardCharsets.UTF_8);
 
         if(buff.length < NAME_SIZE) return;
 
@@ -42,7 +43,7 @@ public class ShowNameIdPair implements RegistroArvoreBMais<ShowNameIdPair> {
 
         int lastChar = NAME_SIZE - 1;
         while(lastChar > 0 && 
-            (secureBuff[lastChar] < 0 || secureBuff[lastChar] > 127)) n--;
+            (secureBuff[lastChar] < 0 || secureBuff[lastChar] > 127)) lastChar--;
 
         byte[] finalBuff = new byte[lastChar + 1];
         System.arraycopy(secureBuff, 0, finalBuff, 0, finalBuff.length);
@@ -51,7 +52,7 @@ public class ShowNameIdPair implements RegistroArvoreBMais<ShowNameIdPair> {
     }
 
     public String getName() { return name; }
-    public int getId() { return id; }
+    public int getID() { return id; }
 
     @Override
     public ShowNameIdPair clone()
@@ -83,7 +84,7 @@ public class ShowNameIdPair implements RegistroArvoreBMais<ShowNameIdPair> {
             return str1.compareTo(str2);
     }
 
-    public byte[] tobyteArray() throws IOException
+    public byte[] toByteArray() throws IOException
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);

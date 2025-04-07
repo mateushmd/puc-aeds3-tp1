@@ -1,14 +1,16 @@
 package pucflix.view;
 
 import pucflix.entity.Show;
+import pucflix.model.ShowFile;
 
-public class ShowsView extends View 
+public class ShowView extends View 
 {
-    private ShowsFile file = new ShowsFile(); 
+    private ShowFile file; 
 
-    public ShowsView(Prompt prompt)
+    public ShowView(Prompt prompt) throws Exception
     {
         super(prompt);
+        file = new ShowFile();
     }
 
     @Override

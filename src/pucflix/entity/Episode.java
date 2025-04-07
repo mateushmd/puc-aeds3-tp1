@@ -1,4 +1,4 @@
-package entity;
+package pucflix.entity;
 
 import java.time.LocalDate;
 import java.io.IOException;
@@ -6,8 +6,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
+import pucflix.aeds3.EntidadeArquivo;
 
-public class Episode {
+public class Episode implements EntidadeArquivo {
     // Atributes
     private int id;
     private String name;
@@ -32,10 +33,11 @@ public class Episode {
 
     // Gets and Sets
     // Id
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id;
     }
-    public int getId() {
+
+    public int getID() {
         return id;
     }
     // Name

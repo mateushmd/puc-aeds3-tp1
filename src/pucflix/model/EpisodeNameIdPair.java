@@ -42,7 +42,7 @@ public class EpisodeNameIdPair implements RegistroArvoreBMais<EpisodeNameIdPair>
 
         int lastChar = NAME_SIZE - 1;
         while(lastChar > 0 && 
-            (secureBuff[lastChar] < 0 || secureBuff[lastChar] > 127)) n--;
+            (secureBuff[lastChar] < 0 || secureBuff[lastChar] > 127)) lastChar--;
 
         byte[] finalBuff = new byte[lastChar + 1];
         System.arraycopy(secureBuff, 0, finalBuff, 0, finalBuff.length);
@@ -51,7 +51,7 @@ public class EpisodeNameIdPair implements RegistroArvoreBMais<EpisodeNameIdPair>
     }
 
     public String getName() { return name; }
-    public int getId() { return id; }
+    public int getID() { return id; }
 
     @Override
     public EpisodeNameIdPair clone()
@@ -83,7 +83,7 @@ public class EpisodeNameIdPair implements RegistroArvoreBMais<EpisodeNameIdPair>
             return str1.compareTo(str2);
     }
 
-    public byte[] tobyteArray() throws IOException
+    public byte[] toByteArray() throws IOException
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);

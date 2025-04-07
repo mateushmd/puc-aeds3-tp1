@@ -1,14 +1,17 @@
 package pucflix.view;
 
 import pucflix.entity.Episode;
+import pucflix.model.EpisodeFile;
+import java.time.LocalDate;
 
 public class EpisodeView extends View 
 {
-    private EpisodeFile file = new EpisodeFile(); 
+    private EpisodeFile file; 
 
-    public EpisodeView(Prompt prompt)
+    public EpisodeView(Prompt prompt) throws Exception
     {
         super(prompt);
+        file = new EpisodeFile();
     }
 
     @Override
@@ -34,10 +37,12 @@ public class EpisodeView extends View
         {
             case 1: 
                 String name = prompt.askForInput("Nome: ");
-                int season = prompt.askForInput("Temporada: ");
-                int releaseDate = Integer.parseInt(prompt.askForInput("Data de lançamento: "));
-                float durationTime = prompt.askForInput("Tempo de duração: ");
-                Episode episode = new Episode(name, season, releaseDate, durationTime); 
+                int season = Integer.parseInt(prompt.askForInput("Temporada: "));
+                int day = Integer.parseInt(prompt.askForInput("Dia do lançamento: "));
+                int month = Integer.parseInt(prompt.askForInput("Mês do lançamento: "));
+                int year = Integer.parseInt(prompt.askForInput("Ano do lançamento: "));
+                float durationTime = Float.parseFloat(prompt.askForInput("Tempo de duração: "));
+                Episode episode = new Episode(name, season, LocalDate.of(year, month, day), durationTime); 
             case 2: return "Searching";
             case 3: return "Updating";
             case 4: return "Deleting";

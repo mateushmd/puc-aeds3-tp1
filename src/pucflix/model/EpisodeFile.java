@@ -4,24 +4,24 @@ import pucflix.entity.Episode;
 import pucflix.aeds3.Arquivo;
 import pucflix.aeds3.HashExtensivel;
 import pucflix.aeds3.ArvoreBMais;
+import java.util.ArrayList;
 
 public class EpisodeFile extends Arquivo<Episode> 
 {
-    HashExtensivel<EpisodeNameIdPair> nameIndex;    
+    ArvoreBMais<EpisodeNameIdPair> nameIndex;    
 
     public EpisodeFile() throws Exception
     {
         super("episodes", Episode.class.getConstructor());
-        nameIndex = new HashExtensivel<>(
+        nameIndex = new ArvoreBMais<>(
             EpisodeNameIdPair.class.getConstructor(),
             4,
-            "./dados/" + nomeEntidade + "/nameIndex.d.db",
-            "./dados/" + nomeEntidade + "/nameIndex.c.db"
+            "./dados/" + nomeEntidade + "/nameIndex.db"
         );
     }
 
     @Override
-    public void create(Episode episode) throws Exception 
+    public int create(Episode episode) throws Exception 
     {
         int id = super.create(episode);
         nameIndex.create(new EpisodeNameIdPair(episode.getName(), id));
@@ -29,17 +29,17 @@ public class EpisodeFile extends Arquivo<Episode>
     }
 
     @Override
-    public void update(Episode episode) 
+    public boolean update(Episode episode) throws Exception 
     {
-        Episode s = read(episode.getId());
+        Episode s = read(episode.getID());
 
         if(s == null) return false;
         if(!super.update(episode)) return false; 
         
         if(!s.getName().equals(episode.getName()))
         {
-            nameIndex.delete(new EpisodeNameIdPair(s.getName(), s.getId()));
-            nameIndex.create(new EpisodeNameIdPair(episode.getName(), episode.getId()));
+            nameIndex.delete(new EpisodeNameIdPair(s.getName(), s.getID()));
+            nameIndex.create(new EpisodeNameIdPair(episode.getName(), episode.getID()));
         }
 
         return true;
@@ -52,12 +52,14 @@ public class EpisodeFile extends Arquivo<Episode>
         ArrayList<EpisodeNameIdPair> pairs = nameIndex.read(new EpisodeNameIdPair(name, -1));
         if(pairs.size() == 0) return null;
 
-        Episode[] episode = new Episode[pairs.size()];
+        Episode[] episodes = new Episode[pairs.size()];
         
         for(int i = 0; i < pairs.size(); i++)
         {
-            episode[i] = read(pairs.getId());
+            episodes[i] = read(pairs.get(i).getID());
         }
+
+        return episodes;
     }
 
     @Override
@@ -79,7 +81,7 @@ public class EpisodeFile extends Arquivo<Episode>
         for(EpisodeNameIdPair pair : pairs)
         {
             if(pair.getName().equals(name))
-                return delete(pair.getId);
+                return delete(pair.getID());
         }
 
         return false;

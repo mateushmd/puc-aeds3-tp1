@@ -18,11 +18,11 @@ public class Prompt
     private int currentBranch;
     private int depth;
 
-    public Prompt()
+    public Prompt() throws Exception
     {
         scanner = new Scanner(System.in);
         views = new View[] {
-            new ShowsView(this),
+            new ShowView(this),
         };
         currentBranch = -1;
     }

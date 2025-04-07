@@ -4,24 +4,24 @@ import pucflix.entity.Show;
 import pucflix.aeds3.Arquivo;
 import pucflix.aeds3.HashExtensivel;
 import pucflix.aeds3.ArvoreBMais;
+import java.util.ArrayList;
 
-public class ShowsFile extends Arquivo<Show> 
+public class ShowFile extends Arquivo<Show> 
 {
-    HashExtensivel<ShowNameIdPair> nameIndex;    
+    ArvoreBMais<ShowNameIdPair> nameIndex;    
 
-    public ShowsFile() throws Exception
+    public ShowFile() throws Exception
     {
         super("shows", Show.class.getConstructor());
-        nameIndex = new HashExtensivel<>(
+        nameIndex = new ArvoreBMais<>(
             ShowNameIdPair.class.getConstructor(),
             4,
-            "./dados/" + nomeEntidade + "/nameIndex.d.db",
-            "./dados/" + nomeEntidade + "/nameIndex.c.db"
+            "./dados/" + nomeEntidade + "/nameIndex.db"
         );
     }
 
     @Override
-    public void create(Show show) throws Exception 
+    public int create(Show show) throws Exception 
     {
         int id = super.create(show);
         nameIndex.create(new ShowNameIdPair(show.getName(), id));
@@ -29,17 +29,17 @@ public class ShowsFile extends Arquivo<Show>
     }
 
     @Override
-    public void update(Show show) 
+    public boolean update(Show show) throws Exception 
     {
-        Show s = read(show.getId());
+        Show s = read(show.getID());
 
         if(s == null) return false;
         if(!super.update(show)) return false; 
         
         if(!s.getName().equals(show.getName()))
         {
-            nameIndex.delete(new ShowNameIdPair(s.getName(), s.getId()));
-            nameIndex.create(new ShowNameIdPair(show.getName(), show.getId()));
+            nameIndex.delete(new ShowNameIdPair(s.getName(), s.getID()));
+            nameIndex.create(new ShowNameIdPair(show.getName(), show.getID()));
         }
 
         return true;
@@ -56,8 +56,10 @@ public class ShowsFile extends Arquivo<Show>
         
         for(int i = 0; i < pairs.size(); i++)
         {
-            shows[i] = read(pairs.getId());
+            shows[i] = read(pairs.get(i).getID());
         }
+
+        return shows;
     }
 
     @Override
@@ -79,7 +81,7 @@ public class ShowsFile extends Arquivo<Show>
         for(ShowNameIdPair pair : pairs)
         {
             if(pair.getName().equals(name))
-                return delete(pair.getId);
+                return delete(pair.getID());
         }
 
         return false;

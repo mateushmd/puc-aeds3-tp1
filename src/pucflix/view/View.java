@@ -2,7 +2,7 @@ package pucflix.view;
 
 public abstract class View 
 {
-    private Prompt prompt;
+    protected Prompt prompt;
 
     public View(Prompt prompt)
     {
