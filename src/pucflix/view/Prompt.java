@@ -25,6 +25,7 @@ public class Prompt
             new ShowView(this),
         };
         currentBranch = -1;
+        depth = 0; 
     }
 
     /**
@@ -82,7 +83,7 @@ public class Prompt
                 return;
             }
         
-            System.out.println(views[currentBranch].eval(opt, 0));
+            views[currentBranch].eval(opt, 0);
         }
         catch(Exception ex) 
         { 

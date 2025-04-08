@@ -34,9 +34,11 @@ public class ShowNameIdPair implements RegistroArvoreBMais<ShowNameIdPair>
 
         if(name.isEmpty()) return;
 
+        this.name = name;
+
         byte[] buff = name.getBytes(StandardCharsets.UTF_8);
 
-        if(buff.length < NAME_SIZE) return;
+        if(buff.length <= NAME_SIZE) return;
 
         byte[] secureBuff = new byte[NAME_SIZE];
         System.arraycopy(buff, 0, secureBuff, 0, secureBuff.length);
