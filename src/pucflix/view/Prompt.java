@@ -20,9 +20,13 @@ public class Prompt
 
     public Prompt() throws Exception
     {
+        ShowFile sFile = new ShowFile();
+        EpisodeFile eFile = new EpisodeFile();
+    
         scanner = new Scanner(System.in);
         views = new View[] {
-            new ShowView(this),
+            new ShowView(this, sFile),
+            new EpisodeView(this, eFile, sFile) 
         };
         currentBranch = -1;
         depth = 0; 

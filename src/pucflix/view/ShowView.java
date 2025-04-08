@@ -8,10 +8,10 @@ public class ShowView extends View
 {
     private ShowFile file; 
 
-    public ShowView(Prompt prompt) throws Exception
+    public ShowView(Prompt prompt, ShowFile file) throws Exception
     {
         super(prompt);
-        file = new ShowFile();
+        this.file = file;
     }
 
     @Override
@@ -77,19 +77,49 @@ public class ShowView extends View
                         n = Integer.parseInt(prompt.askForInput("Número: "));
                         if(n < 1 || n > shows.length) throw new Exception();
                         valid = true;
+                        n--;
                     }
                     catch(Exception ex) { System.out.println("Insira um número válido"); }
                 }
 
-                System.out.println(shows[n - 1].toString());
+                System.out.println(shows[n].toString());
                 
                 break;
             }
             case 3: 
             {
-                int id = Integer.parseInt(prompt.askForInput("ID: "));
+                String search = prompt.askForInput("Nome: ");
                 
-                Show show = file.read(id);
+                Show[] shows = file.read(search);
+                int n = 0;
+
+                while(shows == null)
+                {
+                    search = prompt.askForInput("Nenhuma série encontrada, tente novamente: "); 
+                    shows = file.read(search);
+                }
+
+                if(shows.length > 1)
+                {
+                    for(int i = 0; i < shows.length; i++)
+                        System.out.println((i + 1) + ") " + shows[i].getName());
+
+                    boolean valid = false;
+                    while(!valid)
+                    {
+                        try
+                        {
+                            n = Integer.parseInt(prompt.askForInput("Diversas séries encontradas, escolha uma: "));
+                            if(n < 1 || n > shows.length) throw new Exception();
+                            valid = true;
+                            --n;
+                        }
+                        catch(Exception ex)
+                        { System.out.println("Insira um número válido"); }
+                    }
+                }
+
+                Show show = shows[n];
 
                 String name = prompt.askForInput("Nome (vazio para não alterar): ");
                 if(!name.isEmpty())
@@ -114,10 +144,41 @@ public class ShowView extends View
             }
             case 4:
             {
-                int id = Integer.parseInt(prompt.askForInput("ID: "));
+                String search = prompt.askForInput("Nome: ");
+                
+                Show[] shows = file.read(search);
+                int n = 0;
+
+                while(shows == null)
+                {
+                    search = prompt.askForInput("Nenhuma série encontrada, tente novamente: "); 
+                    shows = file.read(search);
+                }
+
+                if(shows.length > 1)
+                {
+                    for(int i = 0; i < shows.length; i++)
+                        System.out.println((i + 1) + ") " + shows[i].getName());
+
+                    boolean valid = false;
+                    while(!valid)
+                    {
+                        try
+                        {
+                            n = Integer.parseInt(prompt.askForInput("Diversas séries encontradas, escolha uma: "));
+                            if(n < 1 || n > shows.length) throw new Exception();
+                            valid = true;
+                            --n;
+                        }
+                        catch(Exception ex)
+                        { System.out.println("Insira um número válido"); }
+                    }
+                }
+
+                int id = shows[n].getID(); 
                 
                 if(!file.delete(id))
-                    System.out.println("Nenhuma série com ID " + id + " encontrada");
+                    System.out.println("A série não pode ser excluída pois está vinculada à episódios");
                 else 
                     System.out.println("Operação finalizada com sucesso");
                 break;

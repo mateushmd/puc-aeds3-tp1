@@ -78,4 +78,5 @@ public class ParIdId implements pucflix.aeds3.RegistroArvoreBMais<ParIdId> {
     this.id2 = dis.readInt();
   }
 
+  public int getId2() { return id2; }
 }

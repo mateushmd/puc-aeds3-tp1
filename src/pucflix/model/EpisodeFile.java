@@ -4,11 +4,13 @@ import pucflix.entity.Episode;
 import pucflix.aeds3.Arquivo;
 import pucflix.aeds3.HashExtensivel;
 import pucflix.aeds3.ArvoreBMais;
+import pucflix.aeds3.ParIdId;
 import java.util.ArrayList;
 
 public class EpisodeFile extends Arquivo<Episode> 
 {
     ArvoreBMais<EpisodeNameIdPair> nameIndex;    
+    ArvoreBMais<ParIdId> showRelIndex;
 
     public EpisodeFile() throws Exception
     {
@@ -17,6 +19,7 @@ public class EpisodeFile extends Arquivo<Episode>
             EpisodeNameIdPair.class.getConstructor(),
             4,
             "./dados/" + nomeEntidade + "/nameIndex.db"
+            "./dados/" + nomeEntidade + "/showRelIndex.db"
         );
     }
 
@@ -25,6 +28,7 @@ public class EpisodeFile extends Arquivo<Episode>
     {
         int id = super.create(episode);
         nameIndex.create(new EpisodeNameIdPair(episode.getName(), id));
+        showRelIndex.create(new ParIdId(episode.getShow(), id);
         return id;
     }
 
@@ -45,7 +49,7 @@ public class EpisodeFile extends Arquivo<Episode>
         return true;
     }
 
-    public Episode[] read(String name) throws Exception
+    public Episode[] read(String name, int showID) throws Exception
     {
         if(name.isEmpty()) return null;
 
@@ -53,10 +57,34 @@ public class EpisodeFile extends Arquivo<Episode>
         if(pairs.size() == 0) return null;
 
         Episode[] episodes = new Episode[pairs.size()];
-        
+        int i = 0; 
+        for(EpisodeNameIdPair pair : pairs) 
+        {
+            Episode episode = read(pair.getID());
+             
+            if(episode.getShow() == showID)
+            {
+                episodes[i++] = episode;
+            }
+        }
+
+        Episodes[] finalArr = new Episode[i];
+
+        System.arraycopy(episodes, 0, finalArr, 0, i);
+
+        return finalArr;
+    }
+
+    public Episode[] read(int showID) throws Exception
+    {
+        ArrayList<ParIdId> pairs = showRelIndex.read(new ParIdId(showID, -1));
+        if(pairs.size == 0) return null;
+
+        Episode[] episodes = new Episode[pairs.size()];
+
         for(int i = 0; i < pairs.size(); i++)
         {
-            episodes[i] = read(pairs.get(i).getID());
+            episodes[i] = read(pairs.get(i).getId2());
         }
 
         return episodes;
@@ -69,7 +97,9 @@ public class EpisodeFile extends Arquivo<Episode>
         
         if(episode == null) return false;
         if(!super.delete(id)) return false;
-        return nameIndex.delete(new EpisodeNameIdPair(episode.getName(), id));
+        boolean nameR = nameIndex.delete(new EpisodeNameIdPair(episode.getName(), id));
+        boolean relR = showRelIndex.delete(new ParIdId(episode.getShow(), id));
+        return nameR && relR;
     }
 
     public boolean delete(String name) throws Exception

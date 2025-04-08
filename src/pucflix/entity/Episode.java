@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
+import java.time.format.DateTimeFormatter;
 import pucflix.aeds3.EntidadeArquivo;
 
 public class Episode implements EntidadeArquivo {
@@ -14,21 +15,26 @@ public class Episode implements EntidadeArquivo {
     private String name;
     private int season;
     private LocalDate releaseDate;
-    private float durationTime;
+    private int durationTime;
+    private int show;
+    
+    private DateTimeFormatter formatter;
     
     // Constructors
-    public Episode(String name, int season, LocalDate releaseDate, float durationTime) {
-        this(-1, name, season, LocalDate.now(), durationTime);
+    public Episode(String name, int season, LocalDate releaseDate, int durationTime, int show) {
+        this(-1, name, season, LocalDate.now(), durationTime, show);
     }
     public Episode() {
-        this(-1, "", -1, LocalDate.now(), 0F);
+        this(-1, "", -1, LocalDate.now(), 0, -1);
     }
-    public Episode(int id, String name, int season, LocalDate releasDate, float durationTime) {
+    public Episode(int id, String name, int season, LocalDate releasDate, int durationTime, int show) {
         this.id = id;
         this.name = name;
         this.season = season;
         this.releaseDate = releasDate;
         this.durationTime = durationTime;
+        this.show = show;
+        formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     }
 
     // Gets and Sets
@@ -62,20 +68,28 @@ public class Episode implements EntidadeArquivo {
         return releaseDate;
     }
     // Duration time
-    public void setDurationTime(float durationTime) {
+    public void setDurationTime(int durationTime) {
         this.durationTime = durationTime;
     }
-    public float getDurationTime() {
+    public int getDurationTime() {
         return durationTime;
+    }
+    
+    public void setShow(int show) {
+        this.show = show;
+    }
+    public int getShow() {
+        return show;
     }
 
     // Return atributes
     public String toString() {
-        return "\nID...................: " + this.id +
-               "\nNome.................: " + this.name +
-               "\nTemporada.............: " + this.season +
-               "\nData de lançamento...: " + this.releaseDate +
-               "\nDuração..............: " + this.durationTime;
+        return name + 
+                    "\nid: " + this.id +
+                    "\nnome: " + this.name +
+                    "\ntemporada: " + this.season +
+                    "\ndata de lançamento: " + this.releaseDate.format(formatter) +
+                    "\nduração: " + this.durationTime;
     }
 
     // Primitive type to byte array
@@ -86,7 +100,8 @@ public class Episode implements EntidadeArquivo {
         dos.writeUTF(this.name);
         dos.writeInt(this.season);
         dos.writeInt((int)this.releaseDate.toEpochDay());
-        dos.writeFloat(this.durationTime);
+        dos.writeInt(this.durationTime);
+        dos.writeInt(this.show);
         return baos.toByteArray();
     }
 
@@ -98,6 +113,7 @@ public class Episode implements EntidadeArquivo {
         this.name = dis.readUTF();
         this.season = dis.readInt();
         this.releaseDate = LocalDate.ofEpochDay(dis.readInt());
-        this.durationTime = dis.readFloat();
+        this.durationTime = dis.readInt();
+        this.show = dis.readInt();
     }
 }
