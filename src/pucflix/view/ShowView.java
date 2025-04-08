@@ -1,17 +1,21 @@
 package pucflix.view;
 
 import pucflix.entity.Show;
+import pucflix.entity.Episode;
 import pucflix.model.ShowFile;
+import pucflix.model.EpisodeFile;
 import java.lang.NumberFormatException;
 
 public class ShowView extends View 
 {
     private ShowFile file; 
+    private EpisodeFile eFile;
 
-    public ShowView(Prompt prompt, ShowFile file) throws Exception
+    public ShowView(Prompt prompt, ShowFile file, EpisodeFile eFile) throws Exception
     {
         super(prompt);
         this.file = file;
+        this.eFile = eFile;
     }
 
     @Override
@@ -21,13 +25,14 @@ public class ShowView extends View
     }
 
     @Override
-    public String getPrompt(int depth)
+    public String getPrompt(int depth) throws Exception
     {
         return
             "1) Incluir\n" +
             "2) Buscar\n" +
             "3) Alterar\n" +
-            "4) Excluir";
+            "4) Excluir\n" +
+            "5) Listar episódios";
     }
 
     @Override
@@ -182,6 +187,69 @@ public class ShowView extends View
                 else 
                     System.out.println("Operação finalizada com sucesso");
                 break;
+            }
+            case 5:
+            {
+                String search = prompt.askForInput("Nome: ");
+                
+                Show[] shows = file.read(search);
+                int n = 0;
+
+                while(shows == null)
+                {
+                    search = prompt.askForInput("Nenhuma série encontrada, tente novamente: "); 
+                    shows = file.read(search);
+                }
+
+                if(shows.length > 1)
+                {
+                    for(int i = 0; i < shows.length; i++)
+                        System.out.println((i + 1) + ") " + shows[i].getName());
+
+                    boolean valid = false;
+                    while(!valid)
+                    {
+                        try
+                        {
+                            n = Integer.parseInt(prompt.askForInput("Diversas séries encontradas, escolha uma: "));
+                            if(n < 1 || n > shows.length) throw new Exception();
+                            valid = true;
+                            --n;
+                        }
+                        catch(Exception ex)
+                        { System.out.println("Insira um número válido"); }
+                    }
+                }
+                
+                System.out.println("Episódios de " + shows[n].getName());
+
+                Episode[] episodes = eFile.readAllFromShow(shows[n].getID());
+
+                for(int i = episodes.length - 1; i > 0; i--)
+                {
+                    for(int j = 0; j < i; j++)
+                    {
+                        if(episodes[j].getSeason() > episodes[j + 1].getSeason())
+                        {
+                            Episode t = episodes[j];
+                            episodes[j] = episodes[j + 1];
+                            episodes[j + 1] = t;
+                        }
+                    }
+                }
+
+                int season = 0;
+
+                for(int i = 0; i < episodes.length; i++)
+                {
+                    if(episodes[i].getSeason() != season)
+                    {
+                        season = episodes[i].getSeason();
+                        System.out.println("\tTemporada " + season);
+                    }
+
+                    System.out.println("\t\t" + episodes[i].getName());
+                }
             }
         }
     }

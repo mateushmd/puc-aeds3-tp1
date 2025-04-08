@@ -25,7 +25,7 @@ public class Prompt
     
         scanner = new Scanner(System.in);
         views = new View[] {
-            new ShowView(this, sFile),
+            new ShowView(this, sFile, eFile),
             new EpisodeView(this, eFile, sFile) 
         };
         currentBranch = -1;
@@ -52,16 +52,24 @@ public class Prompt
 
         if(currentBranch >= 0)
         {
-            System.out.println(views[currentBranch].getPrompt(0));
-            System.out.println("0) Voltar");
+            try
+            {
+                System.out.println(views[currentBranch].getPrompt(0));
+                System.out.println("0) Voltar");
+                return;
+            }
+            catch(Exception ex)
+            {
+                System.out.println("Ocorreu um erro");
+                ex.printStackTrace();
+                currentBranch = -1;
+            }
         }
-        else
-        {
-            for(int i = 0; i < views.length; i++) 
-                System.out.println((i + 1) + ") " + views[i].getName());
 
-            System.out.println("0) Sair");
-        }
+        for(int i = 0; i < views.length; i++) 
+            System.out.println((i + 1) + ") " + views[i].getName());
+
+        System.out.println("0) Sair");
     }
 
     private void eval()

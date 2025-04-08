@@ -22,16 +22,16 @@ public class Episode implements EntidadeArquivo {
     
     // Constructors
     public Episode(String name, int season, LocalDate releaseDate, int durationTime, int show) {
-        this(-1, name, season, LocalDate.now(), durationTime, show);
+        this(-1, name, season, releaseDate, durationTime, show);
     }
     public Episode() {
         this(-1, "", -1, LocalDate.now(), 0, -1);
     }
-    public Episode(int id, String name, int season, LocalDate releasDate, int durationTime, int show) {
+    public Episode(int id, String name, int season, LocalDate releaseDate, int durationTime, int show) {
         this.id = id;
         this.name = name;
         this.season = season;
-        this.releaseDate = releasDate;
+        this.releaseDate = releaseDate;
         this.durationTime = durationTime;
         this.show = show;
         formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -85,11 +85,11 @@ public class Episode implements EntidadeArquivo {
     // Return atributes
     public String toString() {
         return name + 
-                    "\nid: " + this.id +
-                    "\nnome: " + this.name +
-                    "\ntemporada: " + this.season +
-                    "\ndata de lançamento: " + this.releaseDate.format(formatter) +
-                    "\nduração: " + this.durationTime;
+                    "\n\tid: " + this.id +
+                    "\n\tnome: " + this.name +
+                    "\n\ttemporada: " + this.season +
+                    "\n\tdata de lançamento: " + this.releaseDate.format(formatter) +
+                    "\n\tduração: " + this.durationTime;
     }
 
     // Primitive type to byte array

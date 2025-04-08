@@ -33,6 +33,8 @@ public class EpisodeNameIdPair implements RegistroArvoreBMais<EpisodeNameIdPair>
 
         if(name.isEmpty()) return;
 
+        this.name = name;
+
         byte[] buff = name.getBytes(StandardCharsets.UTF_8);
 
         if(buff.length < NAME_SIZE) return;

@@ -17,7 +17,6 @@ public class EpisodeView extends View
     {
         super(prompt);
         showID = -1;
-        name = "Episódios";
         this.eFile = eFile;
         this.sFile = sFile;
     }
@@ -25,21 +24,11 @@ public class EpisodeView extends View
     @Override
     public String getName()
     {
-        return name;
+        return "Episódios";
     }
 
     @Override
-    public String getPrompt(int depth)
-    {
-        return
-            "1) Incluir\n" +
-            "2) Buscar\n" +
-            "3) Alterar\n" +
-            "4) Excluir";
-    }
-
-    @Override
-    public void eval(int input, int depth) throws Exception
+    public String getPrompt(int depth) throws Exception
     {
         if(showID == -1)
         {
@@ -73,12 +62,21 @@ public class EpisodeView extends View
                     { System.out.println("Insira um número válido"); }
                 }
             }
-
+            
             showID = shows[n].getID();
-            name += " (" + shows[n].getName() + ")";
-
-            return;
+            System.out.println("Série escolhida: " + shows[n].getName());
         }
+
+        return
+            "1) Incluir\n" +
+            "2) Buscar\n" +
+            "3) Alterar\n" +
+            "4) Excluir";
+    }
+
+    @Override
+    public void eval(int input, int depth) throws Exception
+    {
 
         switch(input)
         {

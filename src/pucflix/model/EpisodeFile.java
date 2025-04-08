@@ -19,7 +19,11 @@ public class EpisodeFile extends Arquivo<Episode>
             EpisodeNameIdPair.class.getConstructor(),
             4,
             "./dados/" + nomeEntidade + "/nameIndex.db"
-            "./dados/" + nomeEntidade + "/showRelIndex.db"
+        );
+        showRelIndex = new ArvoreBMais<>(
+            ParIdId.class.getConstructor(),
+            4,
+            "./dados/" + nomeEntidade + "/showRelIndex.db" 
         );
     }
 
@@ -28,7 +32,7 @@ public class EpisodeFile extends Arquivo<Episode>
     {
         int id = super.create(episode);
         nameIndex.create(new EpisodeNameIdPair(episode.getName(), id));
-        showRelIndex.create(new ParIdId(episode.getShow(), id);
+        showRelIndex.create(new ParIdId(episode.getShow(), id));
         return id;
     }
 
@@ -49,6 +53,11 @@ public class EpisodeFile extends Arquivo<Episode>
         return true;
     }
 
+    public Episode[] read(String name) throws Exception
+    {
+        return read(name, -1);
+    }
+
     public Episode[] read(String name, int showID) throws Exception
     {
         if(name.isEmpty()) return null;
@@ -62,23 +71,23 @@ public class EpisodeFile extends Arquivo<Episode>
         {
             Episode episode = read(pair.getID());
              
-            if(episode.getShow() == showID)
+            if(showID == -1 || episode.getShow() == showID)
             {
                 episodes[i++] = episode;
             }
         }
 
-        Episodes[] finalArr = new Episode[i];
+        Episode[] finalArr = new Episode[i];
 
         System.arraycopy(episodes, 0, finalArr, 0, i);
 
         return finalArr;
     }
 
-    public Episode[] read(int showID) throws Exception
+    public Episode[] readAllFromShow(int showID) throws Exception
     {
         ArrayList<ParIdId> pairs = showRelIndex.read(new ParIdId(showID, -1));
-        if(pairs.size == 0) return null;
+        if(pairs.size() == 0) return null;
 
         Episode[] episodes = new Episode[pairs.size()];
 
@@ -100,20 +109,5 @@ public class EpisodeFile extends Arquivo<Episode>
         boolean nameR = nameIndex.delete(new EpisodeNameIdPair(episode.getName(), id));
         boolean relR = showRelIndex.delete(new ParIdId(episode.getShow(), id));
         return nameR && relR;
-    }
-
-    public boolean delete(String name) throws Exception
-    {
-        if(name.isEmpty())
-            return false;
-
-        ArrayList<EpisodeNameIdPair> pairs = nameIndex.read(new EpisodeNameIdPair(name, -1));
-        for(EpisodeNameIdPair pair : pairs)
-        {
-            if(pair.getName().equals(name))
-                return delete(pair.getID());
-        }
-
-        return false;
     }
 }
