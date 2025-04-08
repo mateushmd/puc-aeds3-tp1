@@ -31,7 +31,7 @@ public class EpisodeView extends View
     }
 
     @Override
-    public String eval(int input, int depth) throws Exception
+    public void eval(int input, int depth) throws Exception
     {
         switch(input)
         {
@@ -43,11 +43,9 @@ public class EpisodeView extends View
                 int year = Integer.parseInt(prompt.askForInput("Ano do lançamento: "));
                 float durationTime = Float.parseFloat(prompt.askForInput("Tempo de duração: "));
                 Episode episode = new Episode(name, season, LocalDate.of(year, month, day), durationTime); 
-            case 2: return "Searching";
-            case 3: return "Updating";
-            case 4: return "Deleting";
+            case 2: System.out.println("Searching");
+            case 3: System.out.println("Updating");
+            case 4: System.out.println("Deleting");
         }
-
-        throw new Exception();
     }
 }

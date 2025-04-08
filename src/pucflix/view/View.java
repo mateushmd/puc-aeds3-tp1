@@ -11,5 +11,5 @@ public abstract class View
 
     public abstract String getName();
     public abstract String getPrompt(int depth);
-    public abstract String eval(int input, int depth) throws Exception;
+    public abstract void eval(int input, int depth) throws Exception;
 }

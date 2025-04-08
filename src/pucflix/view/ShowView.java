@@ -17,7 +17,7 @@ public class ShowView extends View
     @Override
     public String getName()
     {
-        System.out.println("Séries";
+        return "Séries";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ShowView extends View
     }
 
     @Override
-    public String eval(int input, int depth) throws Exception
+    public void eval(int input, int depth) throws Exception
     {
         switch(input)
         {
@@ -48,7 +48,7 @@ public class ShowView extends View
             }
             case 2:
             {
-                String search = prompt.askForInput("Busca (nome ou ID): ");
+                String search = prompt.askForInput("Busca: ");
                 Show[] shows = file.read(search);
 
                 if(shows == null || shows.length == 0)
@@ -63,12 +63,26 @@ public class ShowView extends View
                 String result = "";
                 
                 for(int i = 0; i < shows.length; i++)
-                    result += i + ") " + shows[i].getName() + "\n"; 
+                    result += (i + 1) + ") " + shows[i].getName() + "\n"; 
 
                 System.out.println(result);
 
-                int n = prompt.askForInput("Número: ");
+                int n = 0;
+                boolean valid = false;
 
+                while(!valid)
+                {
+                    try
+                    {
+                        n = Integer.parseInt(prompt.askForInput("Número: "));
+                        if(n < 1 || n > shows.length) throw new Exception();
+                        valid = true;
+                    }
+                    catch(Exception ex) { System.out.println("Insira um número válido"); }
+                }
+
+                System.out.println(shows[n - 1].toString());
+                
                 break;
             }
             case 3: 
@@ -109,7 +123,5 @@ public class ShowView extends View
                 break;
             }
         }
-
-        throw new Exception();
     }
 }
