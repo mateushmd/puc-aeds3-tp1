@@ -17,7 +17,7 @@ public class ShowView extends View
     @Override
     public String getName()
     {
-        return "Séries";
+        System.out.println("Séries";
     }
 
     @Override
@@ -43,39 +43,33 @@ public class ShowView extends View
                 String streaming = prompt.askForInput("Serviço de streaming: ");
                 Show show = new Show(name, releaseYear, sinopsys, streaming); 
                 file.create(show);
-                return "Operação finalizada com sucesso";
+                System.out.println("Operação finalizada com sucesso");
+                break;
             }
             case 2:
             {
                 String search = prompt.askForInput("Busca (nome ou ID): ");
+                Show[] shows = file.read(search);
 
-                try
+                if(shows == null || shows.length == 0)
+                    System.out.println("Nenhuma série encontrada");
+
+                if(shows.length == 1)
                 {
-                    int id = Integer.parseInt(search);
-                    Show show = file.read(id);
-                    if(show == null)
-                        return "Nenhuma série com ID " + id + " encontrada";
-                    return show.toString();
+                    System.out.println(shows[0].toString());
+                    break;
                 }
-                catch(NumberFormatException ex)
-                {
-                    Show[] shows = file.read(search);
-
-                    if(shows == null || shows.length == 0)
-                        return "Nenhuma série encontrada";
-
-                    if(shows.length == 1)
-                    {
-                        return shows[0].toString();
-                    }
                     
-                    String result = "";
+                String result = "";
+                
+                for(int i = 0; i < shows.length; i++)
+                    result += i + ") " + shows[i].getName() + "\n"; 
 
-                    for(Show s: shows)
-                        result += s.getName() + " (id: " + s.getID() + ")\n";
+                System.out.println(result);
 
-                    return result;
-                }
+                int n = prompt.askForInput("Número: ");
+
+                break;
             }
             case 3: 
             {
@@ -101,16 +95,18 @@ public class ShowView extends View
 
                 file.update(show);
 
-                return "Operação finalizada com sucesso";
+                System.out.println("Operação finalizada com sucesso");
+                break;
             }
             case 4:
             {
                 int id = Integer.parseInt(prompt.askForInput("ID: "));
                 
                 if(!file.delete(id))
-                    return "Nenhuma série com ID " + id + " encontrada";
-                
-                return "Operação finalizada com sucesso";
+                    System.out.println("Nenhuma série com ID " + id + " encontrada");
+                else 
+                    System.out.println("Operação finalizada com sucesso");
+                break;
             }
         }
 

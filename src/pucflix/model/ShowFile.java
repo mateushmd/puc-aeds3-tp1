@@ -12,7 +12,7 @@ public class ShowFile extends Arquivo<Show>
 
     public ShowFile() throws Exception
     {
-        super("shows", Show.class.getConstructor());
+        super("show", Show.class.getConstructor());
         nameIndex = new ArvoreBMais<>(
             ShowNameIdPair.class.getConstructor(),
             4,
