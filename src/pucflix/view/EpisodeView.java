@@ -235,4 +235,10 @@ public class EpisodeView extends View
             }
         }
     }
+
+    @Override
+    public void exit()
+    {
+        showID = -1;
+    }
 }

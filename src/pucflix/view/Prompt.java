@@ -85,7 +85,10 @@ public class Prompt
                 if(currentBranch < 0)
                     isRunning = false;
                 else
+                {
+                    views[currentBranch].exit();
                     currentBranch = -1;
+                }
                 return;
             }
 

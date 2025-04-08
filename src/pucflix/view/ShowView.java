@@ -182,8 +182,12 @@ public class ShowView extends View
 
                 int id = shows[n].getID(); 
                 
-                if(!file.delete(id))
-                    System.out.println("A série não pode ser excluída pois está vinculada à episódios");
+                Episode[] showEpisodes = eFile.readAllFromShow(id);
+
+                if(showEpisodes == null)
+                    System.out.println("A série não pode ser excluída pois está vinculada a episódios");
+                else if(!file.delete(id))
+                    System.out.println("Operação falhou");
                 else 
                     System.out.println("Operação finalizada com sucesso");
                 break;
