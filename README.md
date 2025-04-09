@@ -53,11 +53,11 @@ Classe abstrata molde para visões. Contém todos os métodos necessários para 
 
 `ShowView`
 
-Classe da camada de visão da série, implementação concreta da `View`. Realiza todo o pré-processamento, como a leitura dos inputs para criação, por exemplo, para executar todas as operações do CRUD além de exibir os episódios por temporada de uma série específica.
+Classe da camada de visão da série, implementação concreta da `View`. Realiza todo o pré-processamento, como a leitura dos inputs para executar todas as operações do CRUD e exibe os resultados das operações, como a exibição dos episódios por temporada de uma série específica.
 
 `EpisodeView`
 
-Classe da camada de visão do episódio, implementação concreta da `View`. Realiza todo o pré-processamentopara executar todas as operações do CRUD.
+Classe da camada de visão do episódio, implementação concreta da `View`. Realiza todo o pré-processamento para executar todas as operações do CRUD e exibe o resultado das operações na tela.
 
 ## Experiência
 
