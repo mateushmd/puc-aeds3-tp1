@@ -57,7 +57,7 @@ Classe da camada de visão da série, implementação concreta da `View`. Realiz
 
 `EpisodeView`
 
-Classe da camada de visão da série, implementação concreta da `View`. Realiza todo o pré-processamentopara executar todas as operações do CRUD.
+Classe da camada de visão do episódio, implementação concreta da `View`. Realiza todo o pré-processamentopara executar todas as operações do CRUD.
 
 ## Experiência
 
