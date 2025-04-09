@@ -80,7 +80,14 @@ Para compilar e executar o programa, utilize o script correspondente ao seu sist
 - *Linux*: `build.sh`
 - *Windows*: `build.bat`
 
-Alternativamente, execute a seguinte sequência de comandos:
+Alternativamente, execute a seguinte sequência de comandos na pasta raíz do projeto:
+
+Crie a pasta `/bin` na pasta raíz do projeto caso não exista ainda:
+
+```sh
+mkdir bin
+```
+Ainda na pasta raíz, execute a seguinte sequência de comandos:
 
 ```sh
 cd src
